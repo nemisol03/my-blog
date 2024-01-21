@@ -1,7 +1,8 @@
 import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
-import SignIn from '~/pages/SignIn';
-import SignUp from '~/pages/SignUp';
+import Login from '~/pages/Login';
+import Register from '~/pages/Register';
+import PageNotFound from '~/pages/PageNotFound';
 
 const publicRoutes = [
     {
@@ -13,13 +14,18 @@ const publicRoutes = [
         component: Profile,
     },
     {
-        path: '/signin',
-        component: SignIn,
+        path: '/login',
+        component: Login,
         layout: null,
     },
     {
-        path: '/signup',
-        component: SignUp,
+        path: '/register',
+        component: Register,
+        layout: null,
+    },
+    {
+        path: '*',
+        component: PageNotFound,
         layout: null,
     },
 ];

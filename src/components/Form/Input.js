@@ -1,6 +1,6 @@
 import { useController } from 'react-hook-form';
 
-function Input({ label, control, ...props }) {
+function Input({ label,errors, control, ...props }) {
     const { field } = useController({ control, name: props.name });
     return (
         <div className="flex flex-col gap-3 mb-5 ">

@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { AuthProvider } from "~/contexts/authContext";
 function App() {
     return <Router>
-     <AuthProvider>
+     <AuthProvider >
          <Routes>
             {publicRoutes.map((route,index) => {
                const Layout = route.layout === null ? Fragment : DefaultLayout
