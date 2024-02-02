@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Input } from '~/components/Form';
 import * as Yup from 'yup';
 
@@ -6,15 +6,15 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import Button from '~/components/Button';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import {  useNavigate } from 'react-router-dom';
-import { getLocalToken, register } from '~/services/authService';
-import { useAuth } from '~/contexts/authContext';
+import {  Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { authRegister } from '~/store/auth/authSlice';
 
 const schema = Yup.object(
     {
-        firstname: Yup.string().required("fullname cannot be empty")
-                .max(10,"Fullname must be less than 10 characters"),
-        lastname: Yup.string().required("lastname cannot be empty")
+        first_name: Yup.string().required("first name cannot be empty")
+                .max(10,"first name must be less than 10 characters"),
+        last_name: Yup.string().required("lastname cannot be empty")
                 .max(10,"Lastname must be less than 10 characters"),
         email: Yup.string().email("invalid email address")
                 .required("Email can't be empty"),
@@ -24,7 +24,7 @@ const schema = Yup.object(
 
 
 function Register() {
-   const {setUserInfo} = useAuth();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const {
         handleSubmit,
@@ -33,8 +33,8 @@ function Register() {
     } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            firstname: "",
-            lastname: "",
+            first_name: "",
+            last_name: "",
             email: "",
             password: ""
         }
@@ -44,15 +44,29 @@ function Register() {
         if(arrErrors.length >0) {
             toast.error(arrErrors[0]?.message, {
                 pauseOnHover: false
-            });
+            },
+           );
         }
     },[errors])
 
     const onSubmit = async (data) => {
 
-        const payload = await register(data);
-        setUserInfo(payload);
-        navigate('/')
+        try {
+            // console.log(data);
+            // const payload = await register(data);
+            // console.log(payload);
+            // setUserInfo(payload);
+            // toast.success("You have logged in successfully!");
+            // setTimeout(() => {
+            //     navigate('/')
+            // },2000)
+            dispatch(authRegister(data));
+        }catch(err) {
+            toast.error(err.response.data.errors[0], {
+                pauseOnHover: false,
+                
+            });
+        }
 
     
     };
@@ -67,7 +81,7 @@ function Register() {
                     type="text"
                     label="Firstname"
                     placeholder="Enter your firstname"
-                    name="firstname"
+                    name="first_name"
                     control={control}
 
                 />
@@ -75,7 +89,7 @@ function Register() {
                     type="text"
                     label="Lastname"
                     placeholder="Enter your lastname"
-                    name="lastname"
+                    name="last_name"
                     control={control}
 
                 />
@@ -96,6 +110,7 @@ function Register() {
                 />
 
                 <Button primary wFull  >Sign up</Button>
+                <p className='text-slate-500 text-sm mt-4 float-right'>Already has an account? <Link to="/login" className='text-primary '>Login now</Link></p>
             </form>
         </div>
     );

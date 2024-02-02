@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Input } from '~/components/Form';
 import * as Yup from 'yup';
 
@@ -6,9 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import Button from '~/components/Button';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from '~/contexts/authContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { authLogin } from '~/store/auth/authSlice';
 const schema = Yup.object(
     {
       
@@ -20,7 +20,7 @@ const schema = Yup.object(
 
 
 function Login() {
-    const {setUserInfo} = useAuth();
+    const dispatch =  useDispatch();
     const navigate = useNavigate();
     const {
         handleSubmit,
@@ -42,22 +42,21 @@ function Login() {
         }
     },[errors])
 
-    const onSubmit = (data) => {
-        const login = async () => {
-            try {
-                const res = await axios.post('http://localhost:8080/api/v1/auth/login', 
-                    data
-                );
-                console.log(res.token);
-                toast.success('Congratulation! You have just logged in successfully')
-                // navigate('/')
-            } catch (error) {
-                console.error('Error during registration:', error);
-            }
-        };
-    
-        login();
+    const onSubmit = async (data) => {
+        try {
+            dispatch(authLogin(data));
+            // const payload = await login(data);
+            // setUserInfo(payload);
+            // toast.success("You have logged in successfully!");
+            // setTimeout(() => {
+            //     navigate('/');
+            // }, 2000);
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to log in. Please try again.");
+        }
     };
+    
     
     return (
         <div className="page-container h-[100vh]  mx-auto mt-[200px]  ">
@@ -78,9 +77,11 @@ function Login() {
                     name="password"
                     control={control}
 
-                />
+            />
+
 
                 <Button primary wFull  >Sign in</Button>
+            <p className='text-slate-500 text-sm my-3 float-right'>Don't have an account? <Link to="/register" className='text-primary '>register now</Link></p>
             </form>
         </div>
     );

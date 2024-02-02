@@ -20,7 +20,7 @@ function Button({ to, href, children, isLoading, primary = false, outline = fals
         })
     }
 
-    let className = `rounded-lg text-white  min-w-[100px] py-2 px-4 hover:opacity-85 border border-transparent 
+    let className = `rounded-lg text-white  min-w-[100px] py-2 px-4 hover:opacity-85  border border-transparent 
     ${primary ? 'bg-primary' : '!border-primary !text-primary hover:ring-1 '} 
     ${wFull ? 'w-full py-4' : ''}
     ${disabled ? 'opacity-40 hover:opacity-40 pointer-events-none':''}  

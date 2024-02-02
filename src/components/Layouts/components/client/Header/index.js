@@ -24,8 +24,8 @@ function Header() {
             <div className="nav-left flex items-center gap-10 h-full">
                 <Link to="/">
                     <img
-                        className="w-[60px] "
-                        src="https://i.pinimg.com/564x/82/74/c4/8274c45adcf0b0781ab95f9f6692bb2d.jpg"
+                        className="w-[70px]"
+                        src="https://cdn.dribbble.com/users/1769954/screenshots/3821455/media/54be0f77b13471a85cb7e55e90a2de7c.png?resize=400x300&vertical=center"
                         alt="logo"
                     />
                 </Link>
@@ -47,11 +47,14 @@ function Header() {
                         placeholder="Search here..."
                         className=" border border-slate-300 py-3 px-5 outline-none rounded-lg pr-12 input-search caret-primary"
                     />
-                    <span className="absolute translate-y-2/4 right-0 text-slate-400 px-4 cursor-pointer">
+                    <span className="absolute translate-y-2/4 right-0 text-slate-400 px-4 ">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </span>
                 </div>
-                <Button primary to="/register" > Sign Up </Button>
+               
+                    <Button primary to="/register">
+                        Sign Up
+                    </Button>
             </div>
         </header>
     );
