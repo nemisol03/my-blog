@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { MoonLoader } from 'react-spinners';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Table from '~/components/Table';
 import { IconAdjust, IconDelete, IconEye } from '~/components/icons';
 
-import Pagination from '~/components/pagination';
-import instance from '~/config/axiosConfig';
-import postService from '~/services/postService';
+import { axiosPrivate } from '~/config/axiosConfig';
 import dateConverter from '~/utils/convertDate';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import ReactPaginate from 'react-paginate';
+import SpinLoader from '~/components/Loader';
+
+const itemsPerPage = 3;
 
 function ManagePosts() {
-    const [itemOffset, setItemOffset] = useState(1);
     const [nextPage, setNextPage] = useState(1);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -22,9 +21,9 @@ function ManagePosts() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await instance.get(`posts/manage/all?pageSize=2&pageNo=${nextPage}`);
+                const response = await axiosPrivate.get(`posts/manage/all?pageSize=${itemsPerPage}&pageNo=${nextPage}`);
                 setLoading(false);
-                console.log(response.data);
+                console.log('🚀 ~ fetchData ~ response:', response);
                 setPosts(response.data);
             } catch (error) {
                 setLoading(false);
@@ -38,7 +37,7 @@ function ManagePosts() {
 
     const handleDeletePost = async (id) => {
         try {
-            await postService.delete(id);
+            await axiosPrivate.patch(id + '/trashed/' + true);
             setPosts(posts.filter((post) => post.id !== id));
             toast.success('Post deleted successfully');
         } catch (e) {
@@ -62,14 +61,10 @@ function ManagePosts() {
         });
     };
 
-    const pageCount = Math.ceil(posts.total_elements / posts.page_size);
+    const pageCount = posts.total_page;
 
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * posts.page_size) % posts.total_elements;
-
-        setItemOffset(newOffset);
         setNextPage(event.selected + 1);
-
     };
 
     return (
@@ -122,7 +117,10 @@ function ManagePosts() {
                                     </td>
                                     <td>
                                         <div className="flex items-center gap-x-3 text-gray-500">
-                                            <Link to={`/posts/${post.slug}`} className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer">
+                                            <Link
+                                                to={`/posts/${post.slug}`}
+                                                className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"
+                                            >
                                                 <IconEye />
                                             </Link>
                                             <Link
@@ -144,25 +142,21 @@ function ManagePosts() {
                             ))}
                         </tbody>
                     </Table>
-                    <div className="mt-10">
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel="next >"
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={5}
-                            pageCount={pageCount}
-                            previousLabel="< previous"
-                            renderOnZeroPageCount={null}
-                            className="pagination"
-                        />
-                    </div>
                 </div>
             )}
 
-            {loading && (
-                <div className="flex items-center justify-center ">
-                    <MoonLoader size={50} speedMultiplier={0.4} />
-                </div>
+            {loading && <SpinLoader />}
+            {posts.total_page > 1 && (
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    className="pagination mt-10"
+                />
             )}
         </div>
     );

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { PulseLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import slugify from 'slugify';
 import Button from '~/components/Button';
@@ -9,11 +8,12 @@ import { Dropdown } from '~/components/Dropdown';
 import { Input } from '~/components/Form';
 import Toggle from '~/components/Toggle';
 import ImageUpload from '~/components/image/imageUpload';
-import instance from '~/config/axiosConfig';
+import { axiosPrivate } from '~/config/axiosConfig';
 import { postStatus } from '~/utils/constants';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ImageUploader from 'quill-image-uploader';
+import SpinLoader from '~/components/Loader';
 Quill.register('modules/imageUploader', ImageUploader);
 
 function AddPost() {
@@ -23,7 +23,7 @@ function AddPost() {
     const [selectTag, setSelectTag] = useState('');
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('');
-    const { control, handleSubmit, watch, register, setValue, reset } = useForm({
+    const { control, handleSubmit, watch, setValue, reset } = useForm({
         mode: onchange,
 
         defaultValues: {
@@ -56,7 +56,7 @@ function AddPost() {
 
         try {
             setLoading(true);
-            const res = await instance.post('posts', formData);
+            const res = await axiosPrivate.post('posts', formData);
             setLoading(false);
             if (res.status === 201) {
                 toast.success('Create a new post successfully', { pauseOnHover: false });
@@ -67,7 +67,7 @@ function AddPost() {
                     tag: setSelectTag(''),
                     image: setValue(''),
                     content: setValue(''),
-                    hot:false
+                    hot: false,
                 });
             }
         } catch (error) {
@@ -81,7 +81,7 @@ function AddPost() {
 
     useEffect(() => {
         async function getCategoires() {
-            const categories = await instance.get('tags');
+            const categories = await axiosPrivate.get('tags');
             setCategories(categories.data);
         }
         getCategoires();
@@ -128,7 +128,7 @@ function AddPost() {
                 upload: async (file) => {
                     const bodyFormData = new FormData();
                     bodyFormData.append('image', file);
-                    const response = await instance({
+                    const response = await axiosPrivate({
                         method: 'post',
                         url: process.env.REACT_APP_IMGBB_API_UPLOAD,
                         data: bodyFormData,
@@ -146,9 +146,8 @@ function AddPost() {
     console.log(process.env.REACT_APP_IMGBB_API_UPLOAD);
 
     return (
-        <div className='page-container mb-10'>
+        <div className="page-container mb-10">
             <h1 className="text-primary font-medium text-2xl text-center mb-10">Add new post</h1>
-            
 
             <form action="" onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
@@ -229,7 +228,7 @@ function AddPost() {
 
                     <ReactQuill modules={modules} theme="snow" value={content} onChange={setContent} />
                 </div>
-                <Button primary>{loading ? <PulseLoader color="#fff" size={8} /> : 'Add'}</Button>
+                {loading ? <SpinLoader /> : <Button primary>Add</Button>}
             </form>
         </div>
     );

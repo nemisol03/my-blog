@@ -6,6 +6,7 @@ import authReducer from '~/store/auth/authSlice'
 
 const sagaMiddleware = createSagaMiddleware();
 
+
 export const store = configureStore({
     reducer: {
         auth: authReducer

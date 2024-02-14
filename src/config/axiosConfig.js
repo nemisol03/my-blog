@@ -1,26 +1,29 @@
 import axios from 'axios';
+import { getToken, saveToken } from '~/utils/auth';
 
-const instance = axios.create({
+export const axiosPrivate = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
-    
+    'Content-Type': 'application/json',
 });
 
+export const axiosPublic = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    'Content-Type': 'application/json',
+});
 
-
-
-instance.interceptors.request.use(
+axiosPrivate.interceptors.request.use(
     (config) => {
         if (
-            config.url.indexOf('/login') >= 0 ||
-            config.url.indexOf('/refresh-token') >= 0 ||
+            config.url.indexOf('/auth/login') >= 0 ||
+            // config.url.indexOf('/auth/refresh-token') >= 0 ||
             config.url.indexOf(process.env.REACT_APP_IMGBB_API_UPLOAD) >= 0
         ) {
             return config;
         }
-        // // const token = getLocalToken();
-        // if (token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        // }
+        const { access_token } = getToken();
+        if (access_token) {
+            config.headers.Authorization = `Bearer ${access_token}`;
+        }
         return config;
     },
     (err) => {
@@ -28,35 +31,28 @@ instance.interceptors.request.use(
     },
 );
 
-// instance.interceptors.response.use( async (config) => {
 
-//     // const token = getLocalToken();
-//     // const decoded = jwtDecode(token);
-//     // if(decoded.exp * 1000  < new Date().getTime()) {
-//     //     const token = decoded
-//     // }
+axiosPrivate.interceptors.response.use(
+    async (response) => {
+        return response;
+    },
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const { refresh_token } = getToken();
+                originalRequest.headers.Authorization = `Bearer ${refresh_token}`;
+                const response = await axiosPrivate.post('/auth/refresh-token');
+                const { token } = response.data;
+                saveToken(token, refresh_token);
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                return axiosPrivate(originalRequest);
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
-//     return config;
-// },async err => {
-//     const originalRequest = err.config;
-//     if(err.response.status === 401 && !originalRequest._retry){
-//         originalRequest._retry = true;
-//        try {
-//         const refreshToken = getLocalRefreshToken();
-//         console.log('refress token here ....')
-//         originalRequest.headers.Authorization = `Bearer ${refreshToken}`;
-//         const response = await instance.post('/refresh-token');
-//         const {token } = response.data;
-//         localStorage.setItem('token',token);
-//         originalRequest.headers.Authorization = `Bearer ${token}`;
-//         return axios(originalRequest);
-//        }catch(err) {
-//             console.log(err);
-//        }
-//     }
-
-//     return Promise.reject(err);
-
-// })
-
-export default instance;
+        return Promise.reject(error);
+    },
+);

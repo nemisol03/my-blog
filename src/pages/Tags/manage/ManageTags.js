@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MoonLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import Table from '~/components/Table';
-import { IconAdjust, IconDelete, IconEye } from '~/components/icons';
+import { IconAdjust, IconDelete } from '~/components/icons';
 
-import instance from '~/config/axiosConfig';
+import { axiosPrivate } from '~/config/axiosConfig';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Button from '~/components/Button';
-import tagService from '~/services/tagService';
+import SpinLoader from '~/components/Loader';
 
 function ManageTags() {
     const [tags, setTags] = useState([]);
@@ -18,7 +17,7 @@ function ManageTags() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await instance.get(`tags`);
+                const response = await axiosPrivate.get(`tags`);
                 setLoading(false);
                 console.log(response.data);
                 setTags(response.data);
@@ -34,7 +33,7 @@ function ManageTags() {
 
     const handleDeleteTag = async (id) => {
         try {
-            await tagService.delete(id);
+            await axiosPrivate.delete('tags/' + id);
             setTags(tags.filter((tag) => tag.id !== id));
             toast.success('Tag deleted successfully');
         } catch (e) {
@@ -59,16 +58,6 @@ function ManageTags() {
             ],
         });
     };
-
-    // const pageCount = Math.ceil(posts.total_elements / posts.page_size);
-
-    // const handlePageClick = (event) => {
-    //     const newOffset = (event.selected * posts.page_size) % posts.total_elements;
-
-    //     setItemOffset(newOffset);
-    //     setNextPage(event.selected + 1);
-
-    // };
 
     return (
         <div className="  w-[800px] mx-auto">
@@ -104,16 +93,12 @@ function ManageTags() {
 
                                     <td>
                                         <div className="flex items-center gap-x-3 text-gray-500">
-                                            <span className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer">
-                                                <IconEye />
-                                            </span>
                                             <Link
-                                                to={`/manage/update-post/${tag.id}`}
+                                                to={`/manage/update-tag/${tag.id}`}
                                                 className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"
                                             >
                                                 <IconAdjust />
                                             </Link>
-
                                             <span
                                                 onClick={() => onDelete(tag.id)}
                                                 className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"
@@ -129,11 +114,7 @@ function ManageTags() {
                 </div>
             )}
 
-            {loading && (
-                <div className="flex items-center justify-center ">
-                    <MoonLoader size={50} speedMultiplier={0.4} />
-                </div>
-            )}
+            {loading && <SpinLoader />}
         </div>
     );
 }

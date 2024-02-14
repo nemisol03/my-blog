@@ -1,8 +1,16 @@
-import instance from "~/config/axiosConfig"
-export const authRequestRegister= (data)=> {
-    return instance.post('/auth/register',data);
-}
+import { axiosPrivate, axiosPublic } from '~/config/axiosConfig';
 
-export const authRequestLogin= (data)=> {
-    return instance.post('/auth/login',data);
-}
+export const authRequestRegister = (data) => {
+    return axiosPublic.post('/auth/register', data);
+};
+
+export const authRequestLogin = (data) => {
+    return axiosPublic.post('/auth/login', data);
+};
+
+
+export const authRequestRefreshToken = (token) => {
+    if (!token) return;
+
+    return axiosPrivate.post('/auth/refresh-token');
+};

@@ -1,5 +1,4 @@
 import Home from '~/pages/Home';
-import Profile from '~/pages/Profile';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import PageNotFound from '~/pages/PageNotFound';
@@ -11,6 +10,10 @@ import UpdatePost from '~/pages/Posts/manage/Update';
 import ManageTags from '~/pages/Tags/manage/ManageTags';
 import AddTag from '~/pages/Tags/manage/Add';
 import ManageUsers from '~/pages/Users/manage/ManageUsers';
+import UpdateTag from '~/pages/Tags/manage/Update';
+import Trash from '~/pages/Trash';
+import OwnerProfile from '~/pages/Profile';
+import Profile from '~/pages/Profile/Profile';
 
 const publicRoutes = [
     {
@@ -18,7 +21,14 @@ const publicRoutes = [
         component: Home,
     },
     {
-        path: '/profile',
+        path: '/me/profile',
+        component: OwnerProfile,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/users/:userId/profile',
         component: Profile,
     },
     {
@@ -85,6 +95,14 @@ const publicRoutes = [
         },
     },
     {
+        path: '/manage/update-tag/:id',
+        component: UpdateTag,
+        meta: {
+            requiresAuth: true,
+            permissions: 'ADMIN',
+        },
+    },
+    {
         path: '/manage/users',
         component: ManageUsers,
         meta: {
@@ -95,6 +113,14 @@ const publicRoutes = [
     {
         path: '/posts/:slug',
         component: PostDetail,
+    },
+    {
+        path: '/manage/trash',
+        component: Trash,
+        meta: {
+            requiresAuth: true,
+            permissions: 'ADMIN',
+        },
     },
 ];
 

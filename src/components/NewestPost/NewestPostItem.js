@@ -1,22 +1,29 @@
-function NewestPostItem() {
+import { useNavigate } from 'react-router-dom';
+import dateConverter from '~/utils/convertDate';
+
+function NewestPostItem({ post }) {
+    console.log("🚀 ~ NewestPostItem ~ post:", post)
+    const navigate = useNavigate();
     return (
-        <div className="flex items-center p-5 bg-[#F3EDFF] border-[0.7px] border-b-slate-300 last:border-b-0 ">
+        <div
+            onClick={() => navigate('/posts/' + post.slug)}
+            className="flex flex-1 items-center p-5 bg-[#F3EDFF] border-[0.7px] border-b-slate-300 last:border-b-0 last:rounded-br-xl last:rounded-bl-xl"
+        >
             <div>
                 <img
-                    src="https://i.pinimg.com/564x/50/e7/6e/50e76edb2155f5dec0a2485ad8c0a1e9.jpg"
+                    src={post.thumbnail || '/thumb-default.jpg'}
                     alt=""
-                    className="rounded-xl w-full h-full object-cover block"
+                    className="rounded-xl max-w-[180px] bg-white  object-cover block cursor-pointer"
                 />
             </div>
-            <div className="ml-4">
-                <span className="text-sm rounded-full text-lightGray bg-white  px-3 py-1 ">Sunset</span>
-                <h3 className=" text-xs leading-relaxed mt-2 text-lightGray ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Ad dicta blanditiis voluptas.
-                </h3>
+            <div className="ml-4 ">
+                <span className="text-sm rounded-full text-lightGray bg-white  px-3 py-1 ">{post.tag.name}</span>
+                <h3 className=" text-sm leading-relaxed mt-2 text-slate-900 cursor-pointer">{post.title}</h3>
                 <p className=" flex items-center gap-4 mt-3 text-sm text-lightGray ">
-                    <span className="rounded-separate separate-gray relative">2024-01-23</span>
-                    <span>John Doe</span>
+                    <span className="rounded-separate separate-gray relative text-sm">
+                        {dateConverter(post.updated_at || post.created_at)}
+                    </span>
+                    <span>{post.user.first_name + ' ' + post.user.last_name}</span>
                 </p>
             </div>
         </div>

@@ -1,15 +1,16 @@
-import Banner from '~/components/Banner';
+import AboutMe from '~/components/AboutMe';
 import FeaturePost from '~/components/FeaturePost';
+import HotPost from '~/components/HotPost';
 import NewestPost from '~/components/NewestPost';
-import Pagination from '~/components/pagination';
 
 function Home() {
     return (
         <div className="mt-10 ">
-            <Banner />
-            <FeaturePost />
             <NewestPost />
-            <Pagination />
+            <HotPost/>
+            <FeaturePost />
+            
+            <AboutMe />
         </div>
     );
 }

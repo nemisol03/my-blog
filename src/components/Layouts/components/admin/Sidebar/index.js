@@ -1,11 +1,9 @@
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { IconDelete } from '~/components/icons';
 import IconDashboard from '~/components/icons/IconDashBoard';
 import IconDocument from '~/components/icons/IconDocument';
 import IconGroupUser from '~/components/icons/IconGroupUser';
-import IconLogout from '~/components/icons/IconLogout';
 import IconTag from '~/components/icons/IconTag';
 import IconToggleBar from '~/components/icons/IconToggleBar';
 
@@ -23,7 +21,7 @@ const sidebarLinks = [
     {
         name: 'Posts',
         path: '/manage/posts',
-        icon: <IconDocument  />,
+        icon: <IconDocument />,
     },
     {
         name: 'Users',
@@ -31,9 +29,9 @@ const sidebarLinks = [
         icon: <IconGroupUser />,
     },
     {
-        name: 'Logout',
-        path: '/',
-        icon: <IconLogout />,
+        name: 'Trash',
+        path: '/manage/trash',
+        icon: <IconDelete />,
     },
 ];
 
@@ -41,9 +39,17 @@ function SideBar() {
     const [show, setShow] = useState(true);
 
     return (
-        <div className={`flex flex-col items-center max-w-[300px] w-full shadow-md rounded-lg min-h-screen ${show ? '' : '-translate-x-[30%] max-w-[80px] w-full'}`}>
+        <div
+            className={`flex flex-col items-center max-w-[300px] w-full shadow-md rounded-lg min-h-screen ${
+                show ? '' : '-translate-x-[30%] max-w-[80px] w-full'
+            }`}
+        >
             <div className="flex w-full items-center py-2 px-6">
-                <h3 className={`text-xl text-center text-primary font-medium overflow-hidden transition-all ${show ? 'w-full' : 'w-0'}`}>
+                <h3
+                    className={`text-xl text-center text-primary font-medium overflow-hidden transition-all ${
+                        show ? 'w-full' : 'w-0'
+                    }`}
+                >
                     Nemisol
                 </h3>
                 <span className="ml-auto cursor-pointer hover:text-primary" onClick={() => setShow(!show)}>
@@ -56,8 +62,12 @@ function SideBar() {
                     key={link.name}
                     className={({ isActive }) =>
                         isActive
-                            ? `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all  ${show ? 'w-full text-primary bg-primary bg-opacity-20' : 'w-[56px]'} `
-                            : `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all ${show ? 'hover:bg-primary hover:text-primary hover:bg-opacity-20 ' :''}  `
+                            ? `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all  ${
+                                  show ? 'w-full text-primary bg-primary bg-opacity-20' : 'w-[56px]'
+                              } `
+                            : `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all ${
+                                  show ? 'hover:bg-primary hover:text-primary hover:bg-opacity-20 ' : ''
+                              }  `
                     }
                 >
                     <span className={` transition-all  overflow-hidden ${show ? '' : 'w-0'}`}>{link.icon}</span>

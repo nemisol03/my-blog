@@ -4,7 +4,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white p-8">
+        <footer className="bg-gray-800 text-white p-8 mt-auto">
             <div className="container mx-auto flex justify-between items-center">
                 <div>
                     <p className="text-xl font-semibold">Nemisol</p>
@@ -12,7 +12,10 @@ const Footer = () => {
                 </div>
 
                 <div className="flex space-x-4">
-                    <a href="https://github.com/nemisol03" className="text-gray-400 hover:text-white transition duration-300">
+                    <a
+                        href="https://github.com/nemisol03"
+                        className="text-gray-400 hover:text-white transition duration-300"
+                    >
                         <FontAwesomeIcon icon={faGithub} />
                     </a>
                     <a href="/" className="text-gray-400 hover:text-white transition duration-300">
@@ -23,7 +26,7 @@ const Footer = () => {
                     </a>
                 </div>
             </div>
-            <p className='text-center text-white transform rotate-180 '>Nemisol- All rights reversed</p>
+            <p className="text-center text-white transform rotate-180 ">Nemisol- All rights reversed</p>
         </footer>
     );
 };

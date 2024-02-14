@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 html {
     font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
 }
 
 @layer base {
@@ -16,8 +17,12 @@ html {
         margin: 0;
         box-sizing: border-box;
     }
+
     body {
         @apply font-body;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
     input {
         outline: none;
@@ -55,7 +60,6 @@ html {
         background-color: #f5f5f5;
         background: url('./assets/images/404.gif') no-repeat center;
     }
-
 
     .banner {
         display: flex;
@@ -98,9 +102,23 @@ html {
     //     color: #fff;
     //     @apply bg-primary;
     // }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 20px;
+        & .selected {
+            color: white;
+            @apply bg-primary rounded-md;
+            padding: 4px 14px;
+        }
+        & > li:hover:not(.selected) {
+            @apply text-primary font-semibold;
+        }
+    }
 
     .feature-post-list .swiper-slide {
-        width: 350px;
+        width: 300px;
         height: auto;
     }
 
@@ -126,8 +144,7 @@ html {
         td {
             padding: 15px 30px;
         }
-        tbody {
-        }
+       
     }
     .hidden-input {
         border: 0;
@@ -143,12 +160,11 @@ html {
     .entry-content {
         @apply max-w-[1280px];
     }
-   
 
     .entry-content,
     .entry-content .ql-snow .ql-editor {
         font-family: 'Poppins', sans-serif;
-            font-size: 16px;
+        font-size: 16px;
         h2,
         h3,
         h4 {
@@ -218,23 +234,13 @@ html {
     .quill {
         position: relative;
         .ql-toolbar {
-          position: sticky;
-          top: 0;
-          background-color: white;
-          z-index: 10;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 10;
         }
     }
     .ql-editor {
-        min-height: 300px;  
-        
+        min-height: 300px;
     }
 }
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 20px;
-    & .selected {
-       @apply text-primary;
-    }
-  }

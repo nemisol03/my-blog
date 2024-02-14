@@ -1,7 +1,15 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
+import 'tippy.js/dist/tippy.css';
+import Menu from '~/components/Popper/Menu';
+import IconProfile from '~/components/icons/IconProfile';
+import { IconDashBoard, IconLogout } from '~/components/icons';
+import { logOut } from '~/utils/auth';
+import { toast } from 'react-toastify';
+import { axiosPrivate } from '~/config/axiosConfig';
 
 const menuLinks = [
     {
@@ -10,15 +18,46 @@ const menuLinks = [
     },
     {
         title: 'Blog',
-        path: '/blog',
+        path: '#',
     },
     {
-        title: 'About',
-        path: '/about',
+        title: 'About Me',
+        path: '#about',
     },
 ];
 
 function Header() {
+    const { user, role } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        const res = await axiosPrivate.post('/logout');
+        toast.success('Logged out successfully');
+        window.location.href = '/login';
+        logOut();
+    };
+
+    const userLinks = [
+        {
+            title: 'Profile',
+            icon: <IconProfile />,
+            onClick: () => navigate('/me/profile'),
+        },
+        role == 'ADMIN' && {
+            title: 'Dashboard',
+            icon: <IconDashBoard />,
+            onClick: () => navigate('/dashboard'),
+            meta: {
+                requiresAuth: true,
+                permissions: 'ADMIN',
+            },
+        },
+        {
+            title: 'Logout',
+            icon: <IconLogout />,
+            onClick: handleLogout,
+        },
+    ];
+
     return (
         <header className="header flex items-center justify-between page-container max-h-[66px]   mt-10">
             <div className="nav-left flex items-center gap-10 h-full">
@@ -33,7 +72,7 @@ function Header() {
                     {menuLinks.map((item, index) => {
                         return (
                             <li key={index} className="">
-                                <NavLink to={item.path}>{item.title}</NavLink>
+                                <a href={item.path}>{item.title}</a>
                             </li>
                         );
                     })}
@@ -51,10 +90,32 @@ function Header() {
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </span>
                 </div>
-               
-                    <Button primary to="/register">
-                        Sign Up
+
+                {user && (
+                    <Menu items={userLinks}>
+                        <div className="actions">
+                            <div className="flex gap-x-4 items-center">
+                                <span>
+                                    Hello,
+                                    <span className="font-medium capitalize">
+                                        {user.first_name + ' ' + user.last_name}
+                                    </span>
+                                </span>
+                                <img
+                                    src={user.avatar || '/thumb-default.jpg'}
+                                    className="w-[45px] h-[45px] object-cover border rounded-full"
+                                    alt="avatar"
+                                />
+                            </div>
+                        </div>
+                    </Menu>
+                )}
+
+                {!user && (
+                    <Button primary to="/login">
+                        Sign In
                     </Button>
+                )}
             </div>
         </header>
     );

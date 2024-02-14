@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import {  Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authRegister } from '~/store/auth/authSlice';
+import IconArrowLeft from '~/components/icons/IconArrowLeft';
 
 const schema = Yup.object(
     {
@@ -52,20 +53,14 @@ function Register() {
     const onSubmit = async (data) => {
 
         try {
-            // console.log(data);
-            // const payload = await register(data);
-            // console.log(payload);
-            // setUserInfo(payload);
-            // toast.success("You have logged in successfully!");
-            // setTimeout(() => {
-            //     navigate('/')
-            // },2000)
             dispatch(authRegister(data));
-        }catch(err) {
-            toast.error(err.response.data.errors[0], {
-                pauseOnHover: false,
-                
-            });
+            toast.success('Register successfully! To continue please visit the login page.');
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000);
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to log in. Please try again.');
         }
 
     
@@ -73,6 +68,9 @@ function Register() {
     
     return (
         <div className="page-container h-[100vh]  mx-auto mt-[200px]  ">
+        <span onClick={() => navigate('/')} className=" top-0 cursor-pointer " title="Back to homepage">
+                <IconArrowLeft />
+            </span>
             <h2 className="text-center text-primary font-medium text-2xl">Sign up form</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-[600px] mx-auto rounded-md p-3 w-full">
                

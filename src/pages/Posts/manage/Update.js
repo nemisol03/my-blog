@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { PulseLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import slugify from 'slugify';
 import Button from '~/components/Button';
@@ -9,19 +8,20 @@ import { Dropdown } from '~/components/Dropdown';
 import { Input } from '~/components/Form';
 import Toggle from '~/components/Toggle';
 import ImageUpload from '~/components/image/imageUpload';
-import instance from '~/config/axiosConfig';
+import { axiosPrivate } from '~/config/axiosConfig';
 import { postStatus } from '~/utils/constants';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ImageUploader from 'quill-image-uploader';
 import { useParams } from 'react-router-dom';
+import ImageUploader from 'quill-image-uploader';
+import SpinLoader from '~/components/Loader';
 Quill.register('modules/imageUploader', ImageUploader);
 
 function UpdatePost() {
-
-    const {id} = useParams();
+    const { id } = useParams();
+    // console.log('🚀 ~ UpdatePost ~ slug:', slug);
     const [image, setImage] = useState('');
-    const [post,setPost] = useState({})
+    const [post, setPost] = useState({});
 
     const [categories, setCategories] = useState([]);
     const [selectTag, setSelectTag] = useState('');
@@ -41,7 +41,7 @@ function UpdatePost() {
     });
     const watchStatus = watch('status');
     const watchHot = watch('hot');
-    console.log("selectTag: " + selectTag)
+    console.log('selectTag: ' + selectTag);
 
     const onSubmit = async (data) => {
         data.slug = slugify(data.slug || data.title);
@@ -54,8 +54,6 @@ function UpdatePost() {
         formData.append('tagId', data.tag_id);
         formData.append('hot', data.hot);
 
-        console.log(data.tag_id)
-
         // Append image file if available
         if (image) {
             formData.append('image', image?.file);
@@ -63,11 +61,10 @@ function UpdatePost() {
 
         try {
             setLoading(true);
-            const res = await instance.put(`posts/${post.id}`, formData);
+            const res = await axiosPrivate.put(`posts/${post.id}`, formData);
             setLoading(false);
             if (res.status === 200) {
                 toast.success('updated post successfully', { pauseOnHover: false });
-            
             }
         } catch (error) {
             setLoading(false);
@@ -80,17 +77,18 @@ function UpdatePost() {
 
     useEffect(() => {
         async function fetchData() {
-            const post = await instance.get(`posts/${id}`);
+            const post = await axiosPrivate.get(`posts/id/${id}`);
             reset(post.data);
-            const categories = await instance.get('tags');
+            const categories = await axiosPrivate.get('tags');
             setCategories(categories.data);
             setPost(post.data);
-            setImage({src:post.data.thumbnail});
-            setSelectTag(post.data?.tag || "");
-            setContent(post.data?.content || "");
-            setValue("tag_id", post.data?.tag.id)
+            setImage({ src: post.data.thumbnail });
+            setSelectTag(post.data?.tag || '');
+            setContent(post.data?.content || '');
+            setValue('tag_id', post.data?.tag.id);
         }
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     const handleSelectImage = (e) => {
@@ -134,7 +132,7 @@ function UpdatePost() {
                 upload: async (file) => {
                     const bodyFormData = new FormData();
                     bodyFormData.append('image', file);
-                    const response = await instance({
+                    const response = await axiosPrivate({
                         method: 'post',
                         url: process.env.REACT_APP_IMGBB_API_UPLOAD,
                         data: bodyFormData,
@@ -149,11 +147,9 @@ function UpdatePost() {
         [],
     );
 
-
     return (
-        <div className='page-container mb-10'>
+        <div className="page-container mb-10">
             <h1 className="text-primary font-medium text-2xl text-center mb-10">Update post</h1>
-            
 
             <form action="" onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
@@ -234,7 +230,7 @@ function UpdatePost() {
 
                     <ReactQuill modules={modules} theme="snow" value={content} onChange={setContent} />
                 </div>
-                <Button primary>{loading ? <PulseLoader color="#fff" size={8} /> : 'Save'}</Button>
+                {loading ? <SpinLoader /> : <Button primary>Save</Button>}
             </form>
         </div>
     );
