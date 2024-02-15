@@ -18,7 +18,6 @@ function App() {
         if (access_token) {
             if (!user) {
                 var decoded = jwtDecode(access_token);
-                console.log('🚀 ~ useEffect ~ decoded:', decoded);
                 if (decoded) {
                     if (decoded.exp * 1000 < Date.now()) {
                         const { refresh_token } = getToken();

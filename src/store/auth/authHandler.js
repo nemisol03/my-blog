@@ -38,7 +38,7 @@ export function* handleAuthLogin(action) {
 export function* hanleAuthRefreshToken({ payload }) {
     try {
         const response = yield call(authRequestRefreshToken, payload);
-        console.log('response refresh' + response);
+        console.log('response refresh duoc lam moi' + response);
         if (response.data) {
             console.log("🚀 ~ function*hanleAuthRefreshToken ~ response.data:", response.data)
             

@@ -8,9 +8,18 @@ export const authRequestLogin = (data) => {
     return axiosPublic.post('/auth/login', data);
 };
 
-
 export const authRequestRefreshToken = (token) => {
     if (!token) return;
 
-    return axiosPrivate.post('/auth/refresh-token');
+    return axiosPublic.post(
+        '/auth/refresh-token',
+        {
+            
+        },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        },
+    );
 };

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
-import styles from './Popper.module.scss';
-
-const cx = classNames.bind(styles);
 
 function Wrapper({ children, className }) {
-    return <div className={cx('wrapper', className)}>{children}</div>;
+    return (
+        <div className=" flex flex-col w-full max-h-[calc((100vh - 96px) - 60px)] max-h-[734px] min-h-[100px] py-2  rounded-lg bg-white shadow-md">
+            {children}
+        </div>
+    );
 }
 
 Wrapper.propTypes = {

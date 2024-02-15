@@ -37,8 +37,12 @@ function ManagePosts() {
 
     const handleDeletePost = async (id) => {
         try {
-            await axiosPrivate.patch(id + '/trashed/' + true);
-            setPosts(posts.filter((post) => post.id !== id));
+            await axiosPrivate.patch('posts/' + id + '/trashed/' + true);
+            window.location.reload();
+            // setPosts(posts.data.map((post) => {
+            //     if(post.id !== id) return post;
+            //     return null;
+            // }));
             toast.success('Post deleted successfully');
         } catch (e) {
             console.log(e);
@@ -117,12 +121,12 @@ function ManagePosts() {
                                     </td>
                                     <td>
                                         <div className="flex items-center gap-x-3 text-gray-500">
-                                            <Link
+                                           {post.status==='APPROVED' &&  <Link
                                                 to={`/posts/${post.slug}`}
                                                 className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"
                                             >
                                                 <IconEye />
-                                            </Link>
+                                            </Link>}
                                             <Link
                                                 to={`/manage/update-post/${post.id}`}
                                                 className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"

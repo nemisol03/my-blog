@@ -7,4 +7,6 @@ export {default as IconDashBoard} from './IconDashBoard'
 export {default as IconLogout} from './IconLogout';
 export {default as IconTag} from './IconTag'
 export {default as IconToggleBar} from './IconToggleBar'
+export {default as IconSearch} from './IconSearch'
+export {default as IconDeleteInput} from './IconDeleteInput'
 export {default as Logo} from './Logo';

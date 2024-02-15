@@ -1,15 +1,15 @@
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
-import 'tippy.js/dist/tippy.css';
 import Menu from '~/components/Popper/Menu';
 import IconProfile from '~/components/icons/IconProfile';
 import { IconDashBoard, IconLogout } from '~/components/icons';
 import { logOut } from '~/utils/auth';
 import { toast } from 'react-toastify';
 import { axiosPrivate } from '~/config/axiosConfig';
+
+import Search from '~/components/Search';
 
 const menuLinks = [
     {
@@ -30,11 +30,12 @@ function Header() {
     const { user, role } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const handleLogout = async () => {
-        const res = await axiosPrivate.post('/logout');
         toast.success('Logged out successfully');
         window.location.href = '/login';
         logOut();
     };
+
+    
 
     const userLinks = [
         {
@@ -80,16 +81,7 @@ function Header() {
             </div>
 
             <div className="nav-right flex items-center gap-10 ">
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search here..."
-                        className=" border border-slate-300 py-3 px-5 outline-none rounded-lg pr-12 input-search caret-primary"
-                    />
-                    <span className="absolute translate-y-2/4 right-0 text-slate-400 px-4 ">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </span>
-                </div>
+                <Search/>
 
                 {user && (
                     <Menu items={userLinks}>
