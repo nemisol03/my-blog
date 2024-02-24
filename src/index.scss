@@ -10,7 +10,7 @@ html {
 @layer base {
     :root {
         --primary: #9400ff;
-        --light-primary: rgba(146, 80, 193, 0.9);
+        --light-primary: #9250c1e6;
     }
     * {
         padding: 0;
@@ -19,7 +19,7 @@ html {
     }
 
     body {
-        @apply font-body;
+        font-family:'Poppins', sans-serif;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -29,7 +29,6 @@ html {
     }
 
     button {
-        // border: none;
         outline: none;
     }
     a[href] {
@@ -43,11 +42,12 @@ html {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
-        @apply px-[16px];
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .input-search:not(:placeholder-shown) ~ span {
-        @apply text-slate-900;
+        color:  #333;
         cursor: pointer;
     }
 
@@ -56,7 +56,6 @@ html {
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-
         background-color: #f5f5f5;
         background: url('./assets/images/404.gif') no-repeat center;
     }
@@ -85,7 +84,7 @@ html {
         right: -8px;
     }
     .separate-gray.rounded-separate::after {
-        @apply bg-lightGray;
+        background-color: #6B6B6B;
     }
 
     .border-t-heading::before {
@@ -98,10 +97,6 @@ html {
         width: 35px;
     }
 
-    // .pagination .current-page {
-    //     color: #fff;
-    //     @apply bg-primary;
-    // }
     .pagination {
         display: flex;
         justify-content: center;
@@ -109,11 +104,13 @@ html {
         column-gap: 20px;
         & .selected {
             color: white;
-            @apply bg-primary rounded-md;
+            background: #9400FF ;
+            border-radius: 6px;
             padding: 4px 14px;
         }
         & > li:hover:not(.selected) {
-            @apply text-primary font-semibold;
+            color: #9400FF;
+            font-weight: 600;
         }
     }
 
@@ -144,7 +141,6 @@ html {
         td {
             padding: 15px 30px;
         }
-       
     }
     .hidden-input {
         border: 0;
@@ -158,7 +154,7 @@ html {
         white-space: nowrap;
     }
     .entry-content {
-        @apply max-w-[1280px];
+        max-width: 1280px;
     }
 
     .entry-content,
