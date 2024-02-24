@@ -19,7 +19,6 @@ Quill.register('modules/imageUploader', ImageUploader);
 
 function UpdatePost() {
     const { id } = useParams();
-    // console.log('🚀 ~ UpdatePost ~ slug:', slug);
     const [image, setImage] = useState('');
     const [post, setPost] = useState({});
 
@@ -41,7 +40,6 @@ function UpdatePost() {
     });
     const watchStatus = watch('status');
     const watchHot = watch('hot');
-    console.log('selectTag: ' + selectTag);
 
     const onSubmit = async (data) => {
         data.slug = slugify(data.slug || data.title);

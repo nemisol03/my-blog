@@ -2,18 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import dateConverter from '~/utils/convertDate';
 
 function NewestPostItem({ post }) {
-    console.log("🚀 ~ NewestPostItem ~ post:", post)
     const navigate = useNavigate();
     return (
         <div
             onClick={() => navigate('/posts/' + post.slug)}
-            className="flex flex-1 items-center p-5 bg-[#F3EDFF] border-[0.7px] border-b-slate-300 last:border-b-0 last:rounded-br-xl last:rounded-bl-xl"
+            className="flex flex-1 items-center p-5 bg-[#F3EDFF] border-[0.7px] border-b-slate-300 last:border-b-0 last:rounded-br-xl last:rounded-bl-xl "
         >
             <div>
                 <img
                     src={post.thumbnail || '/thumb-default.jpg'}
                     alt=""
-                    className="rounded-xl max-w-[180px] bg-white  object-cover block cursor-pointer"
+                    className="rounded-xl max-w-[180px] max-h-[150px] bg-white  object-cover block cursor-pointer"
                 />
             </div>
             <div className="ml-4 ">

@@ -40,7 +40,6 @@ function UpdatePost() {
     });
     const watchStatus = watch('status');
     const watchHot = watch('hot');
-    console.log('selectTag: ' + selectTag);
 
     const onSubmit = async (data) => {
         data.slug = slugify(data.slug || data.title);
@@ -52,8 +51,6 @@ function UpdatePost() {
         formData.append('status', data.status);
         formData.append('tagId', data.tag_id);
         formData.append('hot', data.hot);
-
-        console.log(data.tag_id);
 
         // Append image file if available
         if (image) {

@@ -44,7 +44,6 @@ function App() {
                             logOut();
                         }
                     } else {
-                        console.log('🚀 ~ useEffect ~ access_token:', access_token);
                         dispatch(
                             authUpdateUserInfo({
                                 user: decoded.user,

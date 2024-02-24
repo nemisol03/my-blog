@@ -9,7 +9,6 @@ export const objCookies = {
 
 export const saveToken = (access_token, refresh_token) => {
     if (access_token && refresh_token) {
-        console.log('co vao day khong: ' + access_token + ' ' + refresh_token);
         Cookies.set(accessToken, access_token, objCookies);
         Cookies.set(refreshToken, refresh_token, objCookies);
     } else {

@@ -21,7 +21,6 @@ function UpdateTag() {
     });
 
     const onSubmit = async (data) => {
-        console.log(data);
 
         try {
             setLoading(true);
@@ -35,7 +34,6 @@ function UpdateTag() {
             if (error.response.status === 400) {
                 toast.error(error.response.data?.message);
             }
-            console.error('Error uploading tag:', error);
         }
     };
 
