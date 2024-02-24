@@ -13,7 +13,7 @@ function NewestPostItem({ post }) {
                 <img
                     src={post.thumbnail || '/thumb-default.jpg'}
                     alt=""
-                    className="rounded-xl max-w-[180px] bg-white  object-cover block cursor-pointer"
+                    className="rounded-xl max-w-[180px] max-h-[150px] bg-white  object-cover block cursor-pointer"
                 />
             </div>
             <div className="ml-4 ">
