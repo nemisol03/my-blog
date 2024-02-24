@@ -23,7 +23,7 @@ function NewestPostLarge() {
             {post && (
                 <div
                     onClick={() => navigate('/posts/' + post.slug)}
-                    className="h-[433px] w-[640px] border-b-2 border-slate-600 shrink-0 shadow-md cursor-pointer"
+                    className="h-[350px] w-[640px] border-b-2 border-slate-600 shrink-0 shadow-md cursor-pointer"
                 >
                     <div>
                         <img
