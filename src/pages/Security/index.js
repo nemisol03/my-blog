@@ -11,9 +11,9 @@ export default function Security() {
     const [enable2FA, setEnable2FA] = useState(user?.mfaEnabled);
 
     const handleUpdateTFA = async () => {
+        setEnable2FA((prev) => !prev);
         await UserService.switchTFA({ email: user?.email, enabled: !enable2FA });
         dispatch(authEnableTFA({ mfaEnabled: !enable2FA }));
-        setEnable2FA((prev) => !prev);
     };
 
     useEffect(() => {
