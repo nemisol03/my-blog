@@ -14,6 +14,7 @@ import UpdateTag from '~/pages/Tags/manage/Update';
 import Trash from '~/pages/Trash';
 import OwnerProfile from '~/pages/Profile';
 import Profile from '~/pages/Profile/Profile';
+import Security from '~/pages/Security';
 
 const publicRoutes = [
     {
@@ -94,6 +95,7 @@ const publicRoutes = [
             permissions: 'ADMIN',
         },
     },
+    
     {
         path: '/manage/update-tag/:id',
         component: UpdateTag,
@@ -122,6 +124,14 @@ const publicRoutes = [
             permissions: 'ADMIN',
         },
     },
+
+    {
+        path: '/security',
+        component: Security,
+        
+    },
+
+
 ];
 
 const privateRoutes = [];

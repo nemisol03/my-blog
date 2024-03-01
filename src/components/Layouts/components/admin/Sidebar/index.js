@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { IconDelete } from '~/components/icons';
+import { IconDelete, IconLock } from '~/components/icons';
 import IconDashboard from '~/components/icons/IconDashBoard';
 import IconDocument from '~/components/icons/IconDocument';
 import IconGroupUser from '~/components/icons/IconGroupUser';
@@ -28,6 +28,7 @@ const sidebarLinks = [
         path: '/manage/users',
         icon: <IconGroupUser />,
     },
+
     {
         name: 'Trash',
         path: '/manage/trash',

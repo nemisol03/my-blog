@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const Toggle = (props) => {
     const { on, onClick, interactive, ...rest } = props;
+    console.log("🚀 ~ Toggle ~ on:", on)
 
     return (
         <label>

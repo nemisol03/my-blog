@@ -13,9 +13,7 @@ export const authRequestRefreshToken = (token) => {
 
     return axiosPublic.post(
         '/auth/refresh-token',
-        {
-            
-        },
+        {},
         {
             headers: {
                 Authorization: 'Bearer ' + token,
@@ -23,3 +21,7 @@ export const authRequestRefreshToken = (token) => {
         },
     );
 };
+
+// export const authRequestEnableTFA = (data) => {
+//     return axiosPublic.post('auth/verify', data);
+// };

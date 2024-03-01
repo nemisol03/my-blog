@@ -54,10 +54,7 @@ function Register() {
 
         try {
             dispatch(authRegister(data));
-            toast.success('Register successfully! To continue please visit the login page.');
-            setTimeout(() => {
-                navigate('/login');
-            }, 3000);
+           
         } catch (error) {
             console.error(error);
             toast.error('Failed to log in. Please try again.');

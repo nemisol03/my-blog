@@ -29,9 +29,16 @@ const authSlice = createSlice({
                 ...state,
             };
         },
+        authEnableTFA: (state, action) => {
+            // return {
+            // ...state, ...action.payload
+            state.user.mfaEnabled = action.payload.mfaEnabled;
+            // }
+        },
     },
 });
 
-export const { authLogin, authRegister, authUpdateUserInfo, authFetchMe, authRefreshToken } = authSlice.actions;
+export const { authLogin, authRegister, authUpdateUserInfo, authFetchMe, authRefreshToken, authEnableTFA } =
+    authSlice.actions;
 
 export default authSlice.reducer;

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
 import IconProfile from '~/components/icons/IconProfile';
-import { IconDashBoard, IconLogout } from '~/components/icons';
+import { IconDashBoard, IconLock, IconLogout } from '~/components/icons';
 import { logOut } from '~/utils/auth';
 import { toast } from 'react-toastify';
 import { axiosPrivate } from '~/config/axiosConfig';
@@ -53,10 +53,15 @@ function Header() {
             },
         },
         {
+            title: 'Security',
+            icon: <IconLock />,
+            onClick: () => navigate('/security'),
+        },
+        {
             title: 'Logout',
             icon: <IconLogout />,
             onClick: handleLogout,
-        },
+        }
     ];
 
     return (

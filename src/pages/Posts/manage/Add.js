@@ -143,7 +143,6 @@ function AddPost() {
         [],
     );
 
-    console.log(process.env.REACT_APP_IMGBB_API_UPLOAD);
 
     return (
         <div className="page-container mb-10">
