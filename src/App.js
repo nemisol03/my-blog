@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from '~/routes';
+import {  routes } from '~/routes';
 import DefaultLayout from '~/components/Layouts/DefaultLayout';
 import { Fragment, useEffect } from 'react';
 import AdminLayout from './components/Layouts/AdminLayout';
@@ -65,7 +65,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                {publicRoutes.map((route, index) => {
+                {routes.map((route, index) => {
                     let Layout = route.layout === null ? Fragment : DefaultLayout;
                     const { permissions, requiresAuth } = route.meta || {};
                     if (user) {

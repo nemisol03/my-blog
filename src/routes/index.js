@@ -15,8 +15,10 @@ import Trash from '~/pages/Trash';
 import OwnerProfile from '~/pages/Profile';
 import Profile from '~/pages/Profile/Profile';
 import Security from '~/pages/Security';
+import OAuth2RedirectHandler from '~/utils/OAuth2RedirectHandler';
+import Me from '~/pages/Me';
 
-const publicRoutes = [
+const routes = [
     {
         path: '/',
         component: Home,
@@ -130,9 +132,19 @@ const publicRoutes = [
         component: Security,
         
     },
+    {
+        path: '/oauth2/redirect',
+        component: OAuth2RedirectHandler,
+        
+    },
+    {
+        path: '/me',
+        component: Me,
+        
+    },
 
 
 ];
 
 const privateRoutes = [];
-export { publicRoutes, privateRoutes };
+export { routes , privateRoutes };

@@ -1,4 +1,3 @@
-
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
@@ -35,8 +34,6 @@ function Header() {
         logOut();
     };
 
-    
-
     const userLinks = [
         {
             title: 'Profile',
@@ -52,7 +49,7 @@ function Header() {
                 permissions: 'ADMIN',
             },
         },
-        {
+        user?.auth_provider == 'local' && {
             title: 'Security',
             icon: <IconLock />,
             onClick: () => navigate('/security'),
@@ -61,8 +58,8 @@ function Header() {
             title: 'Logout',
             icon: <IconLogout />,
             onClick: handleLogout,
-        }
-    ];
+        },
+    ].filter(Boolean); // remove falsy values to ensure css works properly
 
     return (
         <header className="header flex items-center justify-between page-container max-h-[66px]   mt-10">
@@ -86,7 +83,7 @@ function Header() {
             </div>
 
             <div className="nav-right flex items-center gap-10 ">
-                <Search/>
+                <Search />
 
                 {user && (
                     <Menu items={userLinks}>
