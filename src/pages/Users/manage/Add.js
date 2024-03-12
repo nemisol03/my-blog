@@ -143,8 +143,6 @@ function AddPost() {
         [],
     );
 
-    console.log(process.env.REACT_APP_IMGBB_API_UPLOAD);
-
     return (
         <div className="page-container mb-10">
             <h1 className="text-primary font-medium text-2xl text-center mb-10">Add new post</h1>

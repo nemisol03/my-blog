@@ -10,4 +10,5 @@ export {default as IconToggleBar} from './IconToggleBar'
 export {default as IconSearch} from './IconSearch'
 export {default as IconDeleteInput} from './IconDeleteInput'
 export {default as IconLock} from './IconLock';
+export {default as IconSettings} from './IconSettings'
 export {default as Logo} from './Logo';

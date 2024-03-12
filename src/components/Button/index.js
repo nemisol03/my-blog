@@ -31,11 +31,11 @@ function Button({
         });
     }
 
-    let className = ` flex justify-center rounded-lg text-white  min-w-[100px] py-2 px-4 hover:opacity-85  border border-transparent 
+    let className = ` flex justify-center rounded-lg text-white  min-w-[100px]  py-2 px-4 hover:opacity-85  border border-transparent 
     ${primary ? 'bg-primary' : '!border-primary !text-primary hover:ring-1 '} 
     ${wFull ? 'w-full py-4' : ''}
     ${disabled ? 'opacity-40 hover:opacity-40 pointer-events-none' : ''}  
-    ${size === 'xl' ? 'h-full' : ''}
+    
     `;
 
     return (

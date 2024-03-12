@@ -8,11 +8,12 @@ export function* handleAuthRegister(action) {
     const { payload } = action;
     try {
         yield call(authRequestRegister, payload);
-        toast.success('Register successfully! To continue please visit the login page.');
-        setTimeout(() => {
-            window.location.href = '/login';
-        }, 3000);
+        toast.success('Please verify your email');
+        // setTimeout(() => {
+        //     window.location.href = '/login';
+        // }, 3000);
     } catch (error) {
+        console.log('🚀 ~ function*handleAuthRegister ~ error:', error);
         if (error.response.status === 400) {
             toast.error(error.response.data.errors[0]);
         } else {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { IconDelete, IconLock } from '~/components/icons';
+import { IconDelete, IconLock, IconSettings } from '~/components/icons';
 import IconDashboard from '~/components/icons/IconDashBoard';
 import IconDocument from '~/components/icons/IconDocument';
 import IconGroupUser from '~/components/icons/IconGroupUser';
@@ -27,6 +27,21 @@ const sidebarLinks = [
         name: 'Users',
         path: '/manage/users',
         icon: <IconGroupUser />,
+    },
+    {
+        name: 'Settings',
+        path: '/manage/settings',
+        icon: <IconSettings />,
+        children: [
+            {
+                name: 'Mail template',
+                path: '/manage/settings/mail-template',
+            },
+            {
+                name: 'Security',
+                path: '/security',
+            },
+        ],
     },
 
     {
@@ -58,22 +73,46 @@ function SideBar() {
                 </span>
             </div>
             {sidebarLinks.map((link) => (
-                <NavLink
-                    to={link.path}
-                    key={link.name}
-                    className={({ isActive }) =>
-                        isActive
-                            ? `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all  ${
-                                  show ? 'w-full text-primary bg-primary bg-opacity-20' : 'w-[56px]'
-                              } `
-                            : `text-center flex items-center h-12 w-full gap-x-5 px-5 rounded-lg mb-2   overflow-hidden transition-all ${
-                                  show ? 'hover:bg-primary hover:text-primary hover:bg-opacity-20 ' : ''
-                              }  `
-                    }
-                >
-                    <span className={` transition-all  overflow-hidden ${show ? '' : 'w-0'}`}>{link.icon}</span>
-                    <span className={`overflow-hidden transition-all ${show ? '' : 'w-0'}`}>{link.name}</span>
-                </NavLink>
+                <div key={link.name} className=" w-full  rounded-lg mb-2 overflow-hidden transition-all">
+                    <NavLink
+                        to={link.path}
+                        className={({ isActive }) =>
+                            isActive
+                                ? `flex items-center text-center gap-x-5 px-5 py-3   ${
+                                      show ? 'w-full text-primary bg-primary bg-opacity-20' : 'w-[56px]'
+                                  } `
+                                : `flex items-center text-center gap-x-5 px-5 py-3  ${
+                                      show ? 'hover:bg-primary hover:text-primary hover:bg-opacity-20 ' : ''
+                                  }  `
+                        }
+                    >
+                        <span className={` transition-all  overflow-hidden ${show ? '' : 'w-0'}`}>{link.icon}</span>
+                        <span className={`overflow-hidden transition-all ${show ? '' : 'w-0'}`}>{link.name}</span>
+                    </NavLink>
+                    {link.children &&
+                        link.children.map((subLink) => (
+                            <NavLink
+                                to={subLink.path}
+                                key={subLink.name}
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? `pl-10 text-sm text-center flex items-center h-12 w-full gap-x-5 px-3 rounded-lg mb-2 overflow-hidden transition-all ${
+                                              show ? 'w-full text-primary  bg-opacity-20' : 'w-[56px]'
+                                          } `
+                                        : `pl-10 text-sm text-center flex items-center h-12 w-full gap-x-5 px-3 rounded-lg mb-2 overflow-hidden transition-all ${
+                                              show ? ' hover:text-primary hover:bg-opacity-20 ' : ''
+                                          }  `
+                                }
+                            >
+                                <span className={` transition-all  overflow-hidden ${show ? '' : 'w-0'}`}>
+                                    {subLink.icon}
+                                </span>
+                                <span className={`overflow-hidden transition-all ${show ? '' : 'w-0'}`}>
+                                    {subLink.name}
+                                </span>
+                            </NavLink>
+                        ))}
+                </div>
             ))}
         </div>
     );

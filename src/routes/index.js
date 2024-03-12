@@ -16,7 +16,9 @@ import OwnerProfile from '~/pages/Profile';
 import Profile from '~/pages/Profile/Profile';
 import Security from '~/pages/Security';
 import OAuth2RedirectHandler from '~/utils/OAuth2RedirectHandler';
-import Me from '~/pages/Me';
+import VerifyEmail from '~/pages/VerifyEmail';
+import Settings from '~/pages/Settings';
+import MailTemplate from '~/pages/Settings/MailTemplate';
 
 const routes = [
     {
@@ -97,10 +99,18 @@ const routes = [
             permissions: 'ADMIN',
         },
     },
-    
+
     {
         path: '/manage/update-tag/:id',
         component: UpdateTag,
+        meta: {
+            requiresAuth: true,
+            permissions: 'ADMIN',
+        },
+    },
+    {
+        path: '/manage/settings/mail-template',
+        component: MailTemplate,
         meta: {
             requiresAuth: true,
             permissions: 'ADMIN',
@@ -130,21 +140,25 @@ const routes = [
     {
         path: '/security',
         component: Security,
-        
     },
     {
         path: '/oauth2/redirect',
         component: OAuth2RedirectHandler,
-        
     },
     {
-        path: '/me',
-        component: Me,
-        
+        path: '/verify-email',
+        component: VerifyEmail,
+        layout: null,
     },
-
-
+    {
+        path: '/manage/settings',
+        component: Settings,
+        meta: {
+            requiresAuth: true,
+            permissions: 'ADMIN',
+        },
+    },
 ];
 
 const privateRoutes = [];
-export { routes , privateRoutes };
+export { routes, privateRoutes };
